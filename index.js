@@ -1,17 +1,17 @@
-const Client = require("./../lib/index");
-const testAuth = require("./../testAuth.json");
+const Client = require( 'github' )
+const testAuth = require( './testAuth.json' )
 
-const github = new Client({
-    debug: true
-});
+const type = 'oauth'
+const token = testAuth[ 'token' ]
+const debug = true
 
-github.authenticate({
-    type: "oauth",
-    token: testAuth["token"]
-});
+const github = new Client( { debug } )
 
-const callback = ( err, res ) => {
-    console.log(err, res);
-};
+const response = ( err, res ) => {
+  console.log( 'err', err )
+  console.log( 'res', res )
+}
 
-github.users.get({}, callback);
+github.authenticate( { type, token } )
+
+github.users.get( {}, response )
