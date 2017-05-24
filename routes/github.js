@@ -38,9 +38,30 @@ const callbackReference = ( err, res ) => {
     console.log( result )
 }
 
+const callbackContent = ( err, res ) => {
+    const dados = res.data
+    const data = dados.map( x => x.name )
+
+    console.log( data )
+}
+
 const callbackAll =  ( err, res ) => {
     const dados = res.data
     const data = dados.map( x => x.name )
+
+    console.log( data )
+}
+
+const callbackFollowers =  ( err, res ) => {
+    const dados = res.data
+    const data = dados.map( x => x )
+
+    console.log( data )
+}
+
+const callbackFollowing =  ( err, res ) => {
+    const dados = res.data
+    const data = dados.map( x => x.login )
 
     console.log( data )
 }
@@ -56,7 +77,7 @@ router.get('/getReference', function(req, res, next) {
         owner: "viniazvd",
         repo: "mean",
         ref: "heads/master"
-    }, callbackReference);
+    }, callbackReference)
 });
 
 //getContent
@@ -65,12 +86,22 @@ router.get('/getContent', function(req, res, next) {
         owner: "viniazvd",
         repo: "mean",
         path: ""
-    }, callback);
+    }, callbackContent)
 });
 
-//getAll
+//getAll -repositórios
 router.get('/getAll', function(req, res, next) {
     github.repos.getAll({}, callbackAll )
+})
+
+//getFollowers
+router.get('/getFollowers', function(req, res, next) {
+    github.users.getFollowers({}, callbackFollowers )
+})
+
+//getFollowing
+router.get('/getFollowing', function(req, res, next) {
+    github.users.getFollowing({}, callbackFollowing)
 })
 
 module.exports = router;
