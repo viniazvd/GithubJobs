@@ -15,33 +15,21 @@ const callback = ( err, res ) => {
     console.log( 'res', res )
 }
 
+const callbackUser = ( err, res ) => {
+    const data = res.data
+    const allowedFields = ['name', 'location', 'email', 'hireable']
+    const isAllowedField = ( field ) => allowedFields.includes( field )
+    const toFinalObject = ( data ) => ( obj, field ) => Object.assign( {}, obj, { [field]: data[field] } )
+    const result = Object.keys( data )
+                                    .filter( isAllowedField )
+                                    .reduce( toFinalObject( data ), {} )
+    console.log( result )
+}
+
 //getUsers
 router.get('/getUser', function(req, res, next) {
-    let data = github.users.get( {},  ( err, res ) => {
-
-        Object.keys(res).map(function(key) {
-            const data = res[key];
-
-            const allowedFields = [
-                'id',
-                'login',
-                'name',
-                'location',
-                'email',
-                'hireable'
-            ]
-
-            const isAllowedField = ( field ) => allowedFields.includes( field )
-            const toFinalObject = ( data ) => ( obj, field ) => Object.assign( {}, obj, { [field]: data[field] } )
-
-            const result = Object.keys( data )
-                                            .filter( isAllowedField )
-                                            .reduce( toFinalObject( data ), {} )
-
-            console.log(result)
-        });
-    });
-});
+     github.users.get( {}, callbackUser);
+})
 
 
 //getReference
