@@ -27,19 +27,15 @@ const callbackUser = ( err, res ) => {
 }
 
 const callbackReference = ( err, res ) => {
-    const datas = res.meta
-    let teste = res.map( (x) => x.data )
-    console.log( teste )
-    /*
+    const data = res.data
 
-    const data = res.meta
-    const allowedFields = ['last-modified', 'status']
+    const allowedFields = ['ref', 'url']
     const isAllowedField = ( field ) => allowedFields.includes( field )
     const toFinalObject = ( data ) => ( obj, field ) => Object.assign( {}, obj, { [field]: data[field] } )
     const result = Object.keys( data )
                                     .filter( isAllowedField )
                                     .reduce( toFinalObject( data ), {} )
-    console.log( result )*/
+    console.log( result )
 }
 
 const callbackAll =  ( err, res ) => {
@@ -76,10 +72,5 @@ router.get('/getContent', function(req, res, next) {
 router.get('/getAll', function(req, res, next) {
     github.repos.getAll({}, callbackAll )
 })
-
-
-
-
-
 
 module.exports = router;
